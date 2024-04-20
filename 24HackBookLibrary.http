@@ -1,0 +1,6 @@
+@_24HackBookLibrary_HostAddress = http://localhost:5241
+
+GET {{_24HackBookLibrary_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
