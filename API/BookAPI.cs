@@ -58,6 +58,25 @@ namespace _24HackBookLibrary.API
                     return Results.BadRequest("Unable to add book");
                 }
             });
+
+            //Edit a book
+            app.MapPut("/books/{id}", (_24HackBookLibraryDbContext db, int id, Book updatedBook) =>
+            {
+                var originalBookDetails = db.Books.SingleOrDefault(b => b.Id == id);
+
+                if (originalBookDetails == null)
+                {
+                    return Results.NotFound("Book not found");
+                }
+
+                originalBookDetails.Title = updatedBook.Title;
+                originalBookDetails.BookCover = updatedBook.BookCover;
+                originalBookDetails.AuthorId = updatedBook.AuthorId;
+                originalBookDetails.GenreId = updatedBook.GenreId;
+                originalBookDetails.PublishYear = updatedBook.PublishYear;
+                db.SaveChanges();
+                return Results.Ok("Book details updated successfully");
+            });
         }
     }
 }
