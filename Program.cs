@@ -36,4 +36,5 @@ GenreAPI.Map(app);
 CommentAPI.Map(app);
 BookAPI.Map(app);
 AuthorAPI.Map(app);
+BookUserAPI.Map(app);
 app.Run();
