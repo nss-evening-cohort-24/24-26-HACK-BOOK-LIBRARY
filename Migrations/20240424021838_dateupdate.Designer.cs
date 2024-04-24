@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace _24HackBookLibrary.Migrations
 {
     [DbContext(typeof(_24HackBookLibraryDbContext))]
-    partial class _24HackBookLibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240424021838_dateupdate")]
+    partial class dateupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +31,9 @@ namespace _24HackBookLibrary.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BookId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -41,36 +46,43 @@ namespace _24HackBookLibrary.Migrations
                         new
                         {
                             Id = 1,
+                            BookId = 1,
                             Name = "Anne Frank"
                         },
                         new
                         {
                             Id = 2,
+                            BookId = 2,
                             Name = "Madeline L'Engle"
                         },
                         new
                         {
                             Id = 3,
+                            BookId = 3,
                             Name = "Jack Weatherford"
                         },
                         new
                         {
                             Id = 4,
+                            BookId = 4,
                             Name = "Steven Erikson"
                         },
                         new
                         {
                             Id = 5,
+                            BookId = 5,
                             Name = "Dan Brown"
                         },
                         new
                         {
                             Id = 6,
+                            BookId = 6,
                             Name = "Douglas Adams"
                         },
                         new
                         {
                             Id = 7,
+                            BookId = 7,
                             Name = "Suzanne Collins"
                         });
                 });

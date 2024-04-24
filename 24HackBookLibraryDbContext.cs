@@ -33,13 +33,13 @@ public class _24HackBookLibraryDbContext : DbContext
 
         modelBuilder.Entity<Author>().HasData(new Author[]
         {
-            new Author { Id = 1, Name = "Anne Frank", BookId = 1},
-            new Author { Id = 2, Name = "Madeline L'Engle", BookId = 2},
-            new Author { Id = 3, Name = "Jack Weatherford", BookId = 3},
-            new Author { Id = 4, Name = "Steven Erikson", BookId = 4},
-            new Author { Id = 5, Name = "Dan Brown", BookId = 5},
-            new Author { Id = 6, Name = "Douglas Adams", BookId = 6},
-            new Author { Id = 7, Name = "Suzanne Collins", BookId = 7}
+            new Author { Id = 1, Name = "Anne Frank"},
+            new Author { Id = 2, Name = "Madeline L'Engle"},
+            new Author { Id = 3, Name = "Jack Weatherford"},
+            new Author { Id = 4, Name = "Steven Erikson"},
+            new Author { Id = 5, Name = "Dan Brown"},
+            new Author { Id = 6, Name = "Douglas Adams"},
+            new Author { Id = 7, Name = "Suzanne Collins"}
         });
 
         modelBuilder.Entity<Book>().HasData(new Book[]
@@ -55,22 +55,22 @@ public class _24HackBookLibraryDbContext : DbContext
 
         modelBuilder.Entity<Comment>().HasData(new Comment[]
         {
-            new Comment { Id = 1, UserId = 1, BookId = 1, DatePosted = new DateTime(2024,01,10), Content = "A very important historical work."},
-            new Comment { Id = 2, UserId = 2, BookId = 2, DatePosted = new DateTime(2024,01,15), Content = "Wild and imaginative!"},
-            new Comment { Id = 3, UserId = 3, BookId = 3, DatePosted = new DateTime(2024,01,22), Content = "A bit biased but otherwise worth reading."},
-            new Comment { Id = 4, UserId = 4, BookId = 4, DatePosted = new DateTime(2024,02,01), Content = "I get the feeling the entire Malazan series will benefit from a reread."},
-            new Comment { Id = 5, UserId = 5, BookId = 5, DatePosted = new DateTime(2024,02,12), Content = "The battle between Science and religion is a fascinating topic to read."},
-            new Comment { Id = 6, UserId = 6, BookId = 6, DatePosted = new DateTime(2024,02,23), Content = "What a mezmerizingly weird little book."},
-            new Comment { Id = 7, UserId = 7, BookId = 7, DatePosted = new DateTime(2024,03,11), Content = "I just accidentally reread this book in one sitting..."}
+            new Comment { Id = 1, UserId = 1, BookId = 1, DatePosted = new DateTime(2024,01,10,0,0,0,DateTimeKind.Utc), Content = "A very important historical work."},
+            new Comment { Id = 2, UserId = 2, BookId = 2, DatePosted = new DateTime(2024,01,15,0,0,0,DateTimeKind.Utc), Content = "Wild and imaginative!"},
+            new Comment { Id = 3, UserId = 3, BookId = 3, DatePosted = new DateTime(2024,01,22,0,0,0,DateTimeKind.Utc), Content = "A bit biased but otherwise worth reading."},
+            new Comment { Id = 4, UserId = 4, BookId = 4, DatePosted = new DateTime(2024,02,01,0,0,0,DateTimeKind.Utc), Content = "I get the feeling the entire Malazan series will benefit from a reread."},
+            new Comment { Id = 5, UserId = 5, BookId = 5, DatePosted = new DateTime(2024,02,12,0,0,0,DateTimeKind.Utc), Content = "The battle between Science and religion is a fascinating topic to read."},
+            new Comment { Id = 6, UserId = 6, BookId = 6, DatePosted = new DateTime(2024,02,23,0,0,0,DateTimeKind.Utc), Content = "What a mezmerizingly weird little book."},
+            new Comment { Id = 7, UserId = 7, BookId = 7, DatePosted = new DateTime(2024,03,11,0,0,0,DateTimeKind.Utc), Content = "I just accidentally reread this book in one sitting..."}
         });
 
         modelBuilder.Entity<User>().HasData(new User[]
         {
-            new User { Id = 1, Uid = "", UserName = "GMarkus", Email = "GregMarkus1992@gmail.com", Bio = "Test"},
-            new User { Id = 2, Uid = "", UserName = "NWelton", Email = "nathopp@gmail.com", Bio = "Test"},
-            new User { Id = 3, Uid = "", UserName = "HSmith", Email = "HSmith@email.com", Bio = "Test"},
-            new User { Id = 4, Uid = "", UserName = "DSwann", Email = "mrthincrisp@gmail.com", Bio = "Test"},
-            new User { Id = 5, Uid = "", UserName = "BSchnurb", Email = "B33blebroxx@gmail.com", Bio = "Test"}
+            new User { Id = 1, Uid = "DJNoS94RYXSgpS0jTW7RSVlWyCG3", UserName = "GMarkus", Email = "GregMarkus1992@gmail.com", Bio = "Test"},
+            new User { Id = 2, Uid = "pVt45Of2j2ThgpcIPKruq1pKn4A2", UserName = "NWelton", Email = "nathopp@gmail.com", Bio = "Test"},
+            new User { Id = 3, Uid = "udUYrA1rU1huTDv7dIsRYDcdLwl2", UserName = "HSmith", Email = "HSmith@email.com", Bio = "Test"},
+            new User { Id = 4, Uid = "vaO8Bo1J2SVL7O2grpe1r0Lef9R2", UserName = "DSwann", Email = "mrthincrisp@gmail.com", Bio = "Test"},
+            new User { Id = 5, Uid = "qNfn30qHHwUki1tCyhS58puS8Ov1", UserName = "BSchnurb", Email = "B33blebroxx@gmail.com", Bio = "Test"}
         });
     }
 }
