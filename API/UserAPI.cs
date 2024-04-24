@@ -48,7 +48,22 @@ namespace _24HackBookLibrary.API
                 return Results.Ok(user);
             });
 
+            //Edit User Details
+            app.MapPut("/users/{id}", (_24HackBookLibraryDbContext db, int id, User user) =>
+            {
+                var userBeingUpdated = db.Users.SingleOrDefault(u => u.Id == id);
 
+                if (userBeingUpdated == null)
+                {
+                    return Results.NotFound("No user found");
+                }
+
+                userBeingUpdated.UserName = user.UserName;
+                userBeingUpdated.Email = user.Email;
+                userBeingUpdated.Bio = user.Bio;
+                db.SaveChanges();
+                return Results.Ok("User has been updated");
+            });
         }
     }
 }
