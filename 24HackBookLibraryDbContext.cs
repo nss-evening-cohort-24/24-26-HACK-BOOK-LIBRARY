@@ -55,13 +55,13 @@ public class _24HackBookLibraryDbContext : DbContext
 
         modelBuilder.Entity<Comment>().HasData(new Comment[]
         {
-            new Comment { Id = 1, UserId = 1, BookId = 1, Content = "A very important historical work."},
-            new Comment { Id = 2, UserId = 2, BookId = 2, Content = "Wild and imaginative!"},
-            new Comment { Id = 3, UserId = 3, BookId = 3, Content = "A bit biased but otherwise worth reading."},
-            new Comment { Id = 4, UserId = 4, BookId = 4, Content = "I get the feeling the entire Malazan series will benefit from a reread."},
-            new Comment { Id = 5, UserId = 5, BookId = 5, Content = "The battle between Science and religion is a fascinating topic to read."},
-            new Comment { Id = 6, UserId = 6, BookId = 6, Content = "What a mezmerizingly weird little book."},
-            new Comment { Id = 7, UserId = 7, BookId = 7, Content = "I just accidentally reread this book in one sitting..."}
+            new Comment { Id = 1, UserId = 1, BookId = 1, DatePosted = new DateTime(2024,01,10), Content = "A very important historical work."},
+            new Comment { Id = 2, UserId = 2, BookId = 2, DatePosted = new DateTime(2024,01,15), Content = "Wild and imaginative!"},
+            new Comment { Id = 3, UserId = 3, BookId = 3, DatePosted = new DateTime(2024,01,22), Content = "A bit biased but otherwise worth reading."},
+            new Comment { Id = 4, UserId = 4, BookId = 4, DatePosted = new DateTime(2024,02,01), Content = "I get the feeling the entire Malazan series will benefit from a reread."},
+            new Comment { Id = 5, UserId = 5, BookId = 5, DatePosted = new DateTime(2024,02,12), Content = "The battle between Science and religion is a fascinating topic to read."},
+            new Comment { Id = 6, UserId = 6, BookId = 6, DatePosted = new DateTime(2024,02,23), Content = "What a mezmerizingly weird little book."},
+            new Comment { Id = 7, UserId = 7, BookId = 7, DatePosted = new DateTime(2024,03,11), Content = "I just accidentally reread this book in one sitting..."}
         });
 
         modelBuilder.Entity<User>().HasData(new User[]
