@@ -21,7 +21,7 @@ namespace _24HackBookLibrary.API
             //Get single book
             app.MapGet("/books/{id}", (_24HackBookLibraryDbContext db, int id) =>
             {
-                var book = db.Books.SingleOrDefault(b => b.Id == id);
+                var book = db.Books.FirstOrDefault(b => b.Id == id);
 
                 if (book == null)
                 {
@@ -33,7 +33,7 @@ namespace _24HackBookLibrary.API
             //Delete a book
             app.MapDelete("/books/{id}", (_24HackBookLibraryDbContext db, int id) =>
             {
-                var bookToDelete = db.Books.SingleOrDefault(b => b.Id == id);
+                var bookToDelete = db.Books.FirstOrDefault(b => b.Id == id);
 
                 if (bookToDelete == null)
                 {
@@ -62,7 +62,7 @@ namespace _24HackBookLibrary.API
             //Edit a book
             app.MapPut("/books/{id}", (_24HackBookLibraryDbContext db, int id, Book updatedBook) =>
             {
-                var originalBookDetails = db.Books.SingleOrDefault(b => b.Id == id);
+                var originalBookDetails = db.Books.FirstOrDefault(b => b.Id == id);
 
                 if (originalBookDetails == null)
                 {

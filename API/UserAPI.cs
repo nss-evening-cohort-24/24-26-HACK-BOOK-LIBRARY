@@ -10,7 +10,7 @@ namespace _24HackBookLibrary.API
             //Check User
             app.MapGet("/checkUser/{uid}", (_24HackBookLibraryDbContext db, string uid) =>
             {
-                var user = db.Users.SingleOrDefault(u => u.Uid == uid);
+                var user = db.Users.FirstOrDefault(u => u.Uid == uid);
 
                 if (user == null)
                 {
@@ -51,13 +51,14 @@ namespace _24HackBookLibrary.API
             //Edit User Details
             app.MapPut("/users/{id}", (_24HackBookLibraryDbContext db, int id, User user) =>
             {
-                var userBeingUpdated = db.Users.SingleOrDefault(u => u.Id == id);
+                var userBeingUpdated = db.Users.FirstOrDefault(u => u.Id == id);
 
                 if (userBeingUpdated == null)
                 {
                     return Results.NotFound("No user found");
                 }
 
+                userBeingUpdated.Uid = user.Uid;
                 userBeingUpdated.UserName = user.UserName;
                 userBeingUpdated.Email = user.Email;
                 userBeingUpdated.Bio = user.Bio;

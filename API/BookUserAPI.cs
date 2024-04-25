@@ -16,7 +16,7 @@ namespace _24HackBookLibrary.API
                     return Results.NotFound("User not found");
                 }
 
-                Book bookBeingAdded = db.Books.SingleOrDefault(b => b.Id == bookUser.BookId);
+                Book bookBeingAdded = db.Books.FirstOrDefault(b => b.Id == bookUser.BookId);
                 if (bookBeingAdded == null)
                 {
                     return Results.NotFound("Book not found");
@@ -36,7 +36,7 @@ namespace _24HackBookLibrary.API
                     return Results.NotFound("User not found");
                 }
 
-                var bookBeingRemoved = db.Books.SingleOrDefault(b => b.Id == bookId);
+                var bookBeingRemoved = db.Books.FirstOrDefault(b => b.Id == bookId);
                 if (bookBeingRemoved == null)
                 {
                     return Results.NotFound("Book not found");
