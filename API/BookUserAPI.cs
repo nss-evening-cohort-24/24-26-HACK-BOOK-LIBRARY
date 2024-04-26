@@ -52,10 +52,7 @@ namespace _24HackBookLibrary.API
             //Get user's bookshelf books
             app.MapGet("/bookuser/{userId}", (_24HackBookLibraryDbContext db, int userId) =>
             {
-                var user = db.Users
-                    .Include(u => u.Books)
-                        .ThenInclude(b => b.Comments)
-                    .FirstOrDefault(u => u.Id == userId);
+                var user = db.Users.Include(u => u.Books).ThenInclude(b => b.Comments).FirstOrDefault(u => u.Id == userId);
 
                 if (user == null)
                 {
