@@ -30,12 +30,22 @@ namespace _24HackBookLibrary.API
 
             app.MapGet("/comments", (_24HackBookLibraryDbContext db) => // Gets all comments
             {
-                return db.Comments.ToList();
+                var comments = db.Comments.ToList();
+                if (comments == null || !comments.Any())
+                {
+                    return Results.NotFound("No comments found.");
+                }
+                return Results.Ok(comments);
             });
 
             app.MapGet("/comments/{id}", (_24HackBookLibraryDbContext db, int id) => // Gets a specific comment by ID
             {
-                return db.Comments.FirstOrDefault(c => c.Id == id);
+                var comment = db.Comments.FirstOrDefault(c => c.Id == id);
+                if (comment == null)
+                {
+                    return Results.NotFound($"No comment found with ID {id}.");
+                }
+                return Results.Ok(comment);
             });
 
             app.MapPut("/comments/{id}", (_24HackBookLibraryDbContext db, int id, Comment updatedComment) => //Updates Comment by ID
