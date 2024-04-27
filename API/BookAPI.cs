@@ -6,7 +6,19 @@ namespace _24HackBookLibrary.API
     {
         public static void Map(WebApplication app)
         {
-            //Get all books
+            //Get all books with comments
+            app.MapGet("/books/comments", (_24HackBookLibraryDbContext db) =>
+            {
+                var books = db.Books.Include(b => b.Comments).ToList();
+
+                if (books == null)
+                {
+                    return Results.NotFound("No books found");
+                }
+                return Results.Ok(books);
+            });
+
+            //Get all books 
             app.MapGet("/books", (_24HackBookLibraryDbContext db) =>
             {
                 var books = db.Books.ToList();
@@ -22,6 +34,18 @@ namespace _24HackBookLibrary.API
             app.MapGet("/books/{id}", (_24HackBookLibraryDbContext db, int id) =>
             {
                 var book = db.Books.FirstOrDefault(b => b.Id == id);
+
+                if (book == null)
+                {
+                    return Results.NotFound("Book not found");
+                }
+                return Results.Ok(book);
+            });
+
+            //Get single book with comments
+            app.MapGet("/books/{id}/comments", (_24HackBookLibraryDbContext db, int id) =>
+            {
+                var book = db.Books.Include(b => b.Comments).FirstOrDefault(b => b.Id == id);
 
                 if (book == null)
                 {
