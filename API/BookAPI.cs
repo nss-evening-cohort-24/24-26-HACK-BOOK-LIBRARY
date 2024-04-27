@@ -42,6 +42,18 @@ namespace _24HackBookLibrary.API
                 return Results.Ok(book);
             });
 
+            //Get single book with comments
+            app.MapGet("/books/{id}/comments", (_24HackBookLibraryDbContext db, int id) =>
+            {
+                var book = db.Books.Include(b => b.Comments).FirstOrDefault(b => b.Id == id);
+
+                if (book == null)
+                {
+                    return Results.NotFound("Book not found");
+                }
+                return Results.Ok(book);
+            });
+
             //Delete a book
             app.MapDelete("/books/{id}", (_24HackBookLibraryDbContext db, int id) =>
             {
