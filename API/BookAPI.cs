@@ -6,7 +6,19 @@ namespace _24HackBookLibrary.API
     {
         public static void Map(WebApplication app)
         {
-            //Get all books
+            //Get all books with comments
+            app.MapGet("/books/comments", (_24HackBookLibraryDbContext db) =>
+            {
+                var books = db.Books.Include(b => b.Comments).ToList();
+
+                if (books == null)
+                {
+                    return Results.NotFound("No books found");
+                }
+                return Results.Ok(books);
+            });
+
+            //Get all books 
             app.MapGet("/books", (_24HackBookLibraryDbContext db) =>
             {
                 var books = db.Books.ToList();
