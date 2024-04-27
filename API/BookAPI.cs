@@ -42,10 +42,10 @@ namespace _24HackBookLibrary.API
                 return Results.Ok(book);
             });
 
-            //Get single book with comments
+            //Get single book with comments and their users
             app.MapGet("/books/{id}/comments", (_24HackBookLibraryDbContext db, int id) =>
             {
-                var book = db.Books.Include(b => b.Comments).FirstOrDefault(b => b.Id == id);
+                var book = db.Books.Include(b => b.Comments).ThenInclude(u => u.User).FirstOrDefault(b => b.Id == id);
 
                 if (book == null)
                 {
