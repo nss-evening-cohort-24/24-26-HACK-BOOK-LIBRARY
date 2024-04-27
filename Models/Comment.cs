@@ -7,5 +7,6 @@
         public int BookId { get; set; }
         public string? Content { get; set; }
         public DateTime? DatePosted { get; set; }
+        public User User { get; set; }
     }
 }
