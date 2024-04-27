@@ -1,5 +1,7 @@
 ﻿using _24HackBookLibrary.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace _24HackBookLibrary.API
 {
@@ -16,7 +18,7 @@ namespace _24HackBookLibrary.API
                     return Results.NotFound("User not found");
                 }
 
-                Book bookBeingAdded = db.Books.SingleOrDefault(b => b.Id == bookUser.BookId);
+                Book bookBeingAdded = db.Books.FirstOrDefault(b => b.Id == bookUser.BookId);
                 if (bookBeingAdded == null)
                 {
                     return Results.NotFound("Book not found");
@@ -36,7 +38,7 @@ namespace _24HackBookLibrary.API
                     return Results.NotFound("User not found");
                 }
 
-                var bookBeingRemoved = db.Books.SingleOrDefault(b => b.Id == bookId);
+                var bookBeingRemoved = db.Books.FirstOrDefault(b => b.Id == bookId);
                 if (bookBeingRemoved == null)
                 {
                     return Results.NotFound("Book not found");
@@ -45,6 +47,39 @@ namespace _24HackBookLibrary.API
                 userBookshelfBeingRemovedFrom.Books.Remove(bookBeingRemoved);
                 db.SaveChanges();
                 return Results.NoContent();
+            });
+
+            //Get user's bookshelf books
+            app.MapGet("/bookuser/{userId}", (_24HackBookLibraryDbContext db, int userId) =>
+            {
+                var user = db.Users.Include(u => u.Books).ThenInclude(b => b.Comments).FirstOrDefault(u => u.Id == userId);
+
+                if (user == null)
+                {
+                    return Results.NotFound("User not found");
+                }
+
+                var bookShelf = user.Books?.Select(book => new
+                {
+                    book.Id,
+                    book.Title,
+                    book.BookCover,
+                    book.AuthorId,
+                    book.GenreId,
+                    book.PublishYear,
+                    Comments = book.Comments?.Select(comment => new
+                    {
+                        comment.Id,
+                        comment.Content
+                    }).ToList()
+                }).ToList();
+
+                if (bookShelf == null)
+                {
+                    return Results.NotFound("No books found for the specified user");
+                }
+
+                return Results.Ok(bookShelf);
             });
         }
     }
