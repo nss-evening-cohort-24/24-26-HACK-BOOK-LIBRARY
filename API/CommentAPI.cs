@@ -1,4 +1,5 @@
 ﻿using _24HackBookLibrary.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace _24HackBookLibrary.API
 {
@@ -72,6 +73,36 @@ namespace _24HackBookLibrary.API
 
                 return Results.NoContent();
             });
+
+            app.MapGet("/book/comments/{bookId}", (_24HackBookLibraryDbContext db, int bookId) =>
+            {
+                var commentsOnBook = db.Comments.Include(u => u.User).Where(c => c.BookId == bookId).ToList();
+                var commentsToReturn = new List<CommentsDTO>();
+                if (commentsOnBook == null)
+                {
+                    return Results.NotFound("There are no comments on this book");
+                }
+                if (commentsOnBook.Count == 0)
+                {
+                    return Results.Ok(commentsToReturn);
+                }
+                foreach (var comment in commentsOnBook)
+                {
+                    CommentsDTO booksComments = new()
+                    {
+                        Id = comment.Id,
+                        Content = comment.Content,
+                        DatePosted = comment.DatePosted,
+                        CommentsUserName = comment.User.UserName,
+                        CommentsUserId = comment.UserId,
+                    };
+                    commentsToReturn.Add(booksComments);
+                }
+                return Results.Ok(commentsToReturn);
+            });
+
+
+
 
 
 
