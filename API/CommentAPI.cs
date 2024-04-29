@@ -6,27 +6,32 @@ namespace _24HackBookLibrary.API
     {
         public static void Map(WebApplication app)
         {
-            app.MapPost("/comments", (_24HackBookLibraryDbContext db, Comment newComment) => //Posts a new comment
+            app.MapPost("/comments", (_24HackBookLibraryDbContext db, AddCommentDTO dto) => // Posts a new comment
             {
-                if (newComment.UserId <= 0 || newComment.BookId <= 0 || string.IsNullOrWhiteSpace(newComment.Content))
+                if (dto.UserId <= 0 || dto.BookId <= 0 || string.IsNullOrWhiteSpace(dto.Content))
                 {
                     return Results.BadRequest("Invalid data provided.");
                 }
 
-                var userExists = db.Users.Any(u => u.Id == newComment.UserId);
-                var bookExists = db.Books.Any(b => b.Id == newComment.BookId);
-
-                if (!userExists || !bookExists)
+                if (!db.Users.Any(u => u.Id == dto.UserId) || !db.Books.Any(b => b.Id == dto.BookId))
                 {
                     return Results.NotFound("User or book not found.");
                 }
 
-                newComment.DatePosted = DateTime.UtcNow;
+                var newComment = new Comment
+                {
+                    UserId = dto.UserId,
+                    BookId = dto.BookId,
+                    Content = dto.Content,
+                    DatePosted = DateTime.UtcNow
+                };
+
                 db.Comments.Add(newComment);
                 db.SaveChanges();
 
                 return Results.Created($"/comments/{newComment.Id}", newComment);
             });
+
 
             app.MapGet("/comments", (_24HackBookLibraryDbContext db) => // Gets all comments
             {
