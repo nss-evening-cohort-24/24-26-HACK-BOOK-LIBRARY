@@ -74,7 +74,7 @@ namespace _24HackBookLibrary.API
                 return Results.NoContent();
             });
 
-            app.MapGet("/book/comments/{bookId}", (_24HackBookLibraryDbContext db, int bookId) =>
+            app.MapGet("/book/comments/{bookId}", (_24HackBookLibraryDbContext db, int bookId) => // gets all comments for a single book by bookId
             {
                 var commentsOnBook = db.Comments.Include(u => u.User).Where(c => c.BookId == bookId).ToList();
                 var commentsToReturn = new List<CommentsDTO>();
