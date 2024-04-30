@@ -65,6 +65,31 @@ namespace _24HackBookLibrary.API
                 db.SaveChanges();
                 return Results.Ok("User has been updated");
             });
+            // Check if a user is an admin
+            app.MapGet("/users/{id}/isadmin", (_24HackBookLibraryDbContext db, int id) =>
+            {
+                var user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return Results.NotFound("User not found.");
+                }
+
+                return Results.Ok(new { IsAdmin = user.IsAdmin });
+            });
+
+            // Make a user an admin
+            app.MapPut("/users/{id}/makeadmin", (_24HackBookLibraryDbContext db, int id) =>
+            {
+                var user = db.Users.Find(id);
+                if (user == null)
+                {
+                    return Results.NotFound("User not found.");
+                }
+
+                user.IsAdmin = true;
+                db.SaveChanges();
+                return Results.Ok($"User {user.UserName} is now an admin.");
+            });
         }
     }
 }
