@@ -37,4 +37,5 @@ CommentAPI.Map(app);
 BookAPI.Map(app);
 AuthorAPI.Map(app);
 BookUserAPI.Map(app);
+SearchAPI.Map(app);
 app.Run();
