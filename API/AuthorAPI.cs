@@ -42,7 +42,21 @@ namespace _24HackBookLibrary.API
 
             app.MapGet("/authors/{id}/books", (_24HackBookLibraryDbContext db, int id) => //gets a single author with their books
             {
-                var author = db.Authors.Include(b => b.Books).FirstOrDefault(b => b.Id == id);
+                var author = db.Authors
+                   .Where(a => a.Id == id)
+                   .Select(a => new
+                   {
+                       Id = a.Id,
+                       Name = a.Name,
+                       Books = a.Books.Select(b => new
+                       {
+                           Id = b.Id,
+                           Title = b.Title,
+                           BookCover = b.BookCover
+                           // Add other properties of Book as needed
+                       }).ToList()
+                   })
+                   .FirstOrDefault();
 
                 if (author == null)
                 {
