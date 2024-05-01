@@ -96,9 +96,11 @@ namespace _24HackBookLibrary.API
                 var users = db.Users.ToList();
                 return Results.Ok(users.Select(user => new
                 {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    IsAdmin = user.IsAdmin
+                    user.Id,
+                    user.UserName,
+                    user.IsAdmin,
+                    user.Email,
+                    user.Bio,
                 }));
             });
 
