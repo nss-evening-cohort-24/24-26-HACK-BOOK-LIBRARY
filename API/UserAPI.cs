@@ -90,6 +90,20 @@ namespace _24HackBookLibrary.API
                 db.SaveChanges();
                 return Results.Ok($"User {user.UserName} is now an admin.");
             });
+            // Get All Users
+            app.MapGet("/users", (_24HackBookLibraryDbContext db) =>
+            {
+                var users = db.Users.ToList();
+                return Results.Ok(users.Select(user => new
+                {
+                    user.Id,
+                    user.UserName,
+                    user.IsAdmin,
+                    user.Email,
+                    user.Bio,
+                }));
+            });
+
         }
     }
 }
