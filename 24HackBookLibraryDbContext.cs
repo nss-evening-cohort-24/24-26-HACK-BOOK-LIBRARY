@@ -7,6 +7,7 @@ public class _24HackBookLibraryDbContext : DbContext
     public DbSet<Author> Authors { get; set; }
     public DbSet<Genre> Genres { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<UserBookRating> UserBookRatings { get; set; }
 
     public _24HackBookLibraryDbContext(DbContextOptions<_24HackBookLibraryDbContext> options) : base(options)
     {
@@ -70,5 +71,29 @@ public class _24HackBookLibraryDbContext : DbContext
             new User { Id = 4, Uid = "vaO8Bo1J2SVL7O2grpe1r0Lef9R2", UserName = "DSwann", Email = "mrthincrisp@gmail.com", Bio = "Test", IsAdmin = true},
             new User { Id = 5, Uid = "qNfn30qHHwUki1tCyhS58puS8Ov1", UserName = "BSchnurb", Email = "B33blebroxx@gmail.com", Bio = "Test", IsAdmin = true}
         });
+
+        modelBuilder.Entity<UserBookRating>().HasData(new UserBookRating[]
+    {
+        new UserBookRating { Id =1, BookId = 2, UserId = 4, Score = 5},
+        new UserBookRating { Id =2, BookId = 6, UserId = 18, Score = 5},
+        new UserBookRating { Id =3, BookId = 4, UserId = 18, Score = 5},
+        new UserBookRating { Id =4, BookId = 3, UserId = 1, Score = 3},
+        new UserBookRating { Id =5, BookId = 1, UserId = 2, Score = 4}
+    });
+
+        modelBuilder.Entity<UserBookRating>()
+            .HasKey(ubr => new { ubr.UserId, ubr.BookId });
+
+        modelBuilder.Entity<UserBookRating>()
+            .HasOne(ubr => ubr.User)
+            .WithMany(u => u.UserBookRatings)
+            .HasForeignKey(ubr => ubr.UserId);
+
+        modelBuilder.Entity<UserBookRating>()
+            .HasOne(ubr => ubr.Book)
+            .WithMany(b => b.UserBookRatings)
+            .HasForeignKey(ubr => ubr.BookId);
     }
+
 }
+
