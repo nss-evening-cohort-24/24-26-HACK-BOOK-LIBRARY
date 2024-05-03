@@ -66,7 +66,7 @@ namespace _24HackBookLibrary.API
                 }
                 db.Books.Remove(bookToDelete);
                 db.SaveChanges();
-                return Results.NoContent();
+                return Results.Ok("Book deleted.");
             });
 
             //Create a book
