@@ -42,10 +42,21 @@ namespace _24HackBookLibrary.API
                 return Results.Ok(book);
             });
 
-            //Get single book with comments and their users (this is not needed any more see: commentAPI for get commentsForBook)
-            app.MapGet("/books/{id}/comments", (_24HackBookLibraryDbContext db, int id) =>
+            app.MapGet("/books/{id}/author/genre/rating", (_24HackBookLibraryDbContext db, int id) =>
             {
-                var book = db.Books.Include(b => b.Comments).ThenInclude(u => u.User).FirstOrDefault(b => b.Id == id);
+                var book = db.Books
+                    .Where(b => b.Id == id)
+                    .Select(b => new
+                    {
+                        b.Id,
+                        b.Title,
+                        b.PublishYear,
+                        b.Author.Name, 
+                        b.Genre.GenreName,
+                        b.BookCover,
+                        
+                    })
+                    .FirstOrDefault();
 
                 if (book == null)
                 {
@@ -53,6 +64,19 @@ namespace _24HackBookLibrary.API
                 }
                 return Results.Ok(book);
             });
+
+            //Get single book with comments and their users (this is not needed any more see: commentAPI for get commentsForBook)
+            app.MapGet("/books/{id}/comments", (_24HackBookLibraryDbContext db, int id) =>
+            {
+                var book = db.Books.Include(u => u.User).FirstOrDefault(b => b.Id == id);
+
+                if (book == null)
+                {
+                    return Results.NotFound("Book not found");
+                }
+                return Results.Ok(book);
+            });
+
 
             //Delete a book
             app.MapDelete("/books/{id}", (_24HackBookLibraryDbContext db, int id) =>
