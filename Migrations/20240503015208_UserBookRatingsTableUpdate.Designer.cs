@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace _24HackBookLibrary.Migrations
 {
     [DbContext(typeof(_24HackBookLibraryDbContext))]
-    partial class _24HackBookLibraryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240503015208_UserBookRatingsTableUpdate")]
+    partial class UserBookRatingsTableUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -393,9 +396,6 @@ namespace _24HackBookLibrary.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Score")
                         .HasColumnType("integer");
 
@@ -404,43 +404,6 @@ namespace _24HackBookLibrary.Migrations
                     b.HasIndex("BookId");
 
                     b.ToTable("UserBookRatings");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 4,
-                            BookId = 2,
-                            Id = 1,
-                            Score = 5
-                        },
-                        new
-                        {
-                            UserId = 18,
-                            BookId = 6,
-                            Id = 2,
-                            Score = 5
-                        },
-                        new
-                        {
-                            UserId = 18,
-                            BookId = 4,
-                            Id = 3,
-                            Score = 5
-                        },
-                        new
-                        {
-                            UserId = 1,
-                            BookId = 3,
-                            Id = 4,
-                            Score = 3
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            BookId = 1,
-                            Id = 5,
-                            Score = 4
-                        });
                 });
 
             modelBuilder.Entity("BookUser", b =>

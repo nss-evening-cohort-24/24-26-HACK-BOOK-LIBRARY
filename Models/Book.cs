@@ -13,5 +13,7 @@
         public ICollection<Comment>? Comments { get; set; }
         public ICollection<User>? User { get; set; }
 
+        public ICollection<UserBookRating>? UserBookRatings { get; set; }
+
     }
 }
