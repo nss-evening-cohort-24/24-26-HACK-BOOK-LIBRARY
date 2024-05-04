@@ -19,16 +19,45 @@ namespace _24HackBookLibrary.API
             });
 
             //Get all books 
-            app.MapGet("/books", (_24HackBookLibraryDbContext db) =>
+            app.MapGet("/books", (_24HackBookLibraryDbContext db, string sortBy = "title") =>
             {
-                var books = db.Books.ToList();
+                IQueryable<Book> booksQuery = db.Books
+                    .Include(b => b.Author)
+                    .Include(b => b.Genre)
+                    .Include(b => b.UserBookRatings);
 
-                if (books == null)
+                if (sortBy.ToLower() == "rating")
                 {
-                    return Results.NotFound("No books found");
+                    booksQuery = booksQuery
+                        .Select(b => new
+                        {
+                            Book = b,
+                            AverageRating = b.UserBookRatings.Any() ? b.UserBookRatings.Average(r => r.Score) : 0.0
+                        })
+                        .OrderByDescending(x => x.AverageRating)
+                        .Select(x => x.Book);
                 }
+                else
+                {
+                    booksQuery = booksQuery.OrderBy(b => b.Title);
+                }
+
+                var books = booksQuery.Select(b => new
+                {
+                    b.Id,
+                    b.Title,
+                    b.PublishYear,
+                    b.BookCover,
+                    AuthorName = b.Author.Name,
+                    GenreName = b.Genre.GenreName,
+                    RatingsAverage = b.UserBookRatings.Any() ? b.UserBookRatings.Average(r => r.Score) : 0.0
+                }).ToList();
+
                 return Results.Ok(books);
             });
+
+
+
 
             //Get single book
             app.MapGet("/books/{id}", (_24HackBookLibraryDbContext db, int id) =>
