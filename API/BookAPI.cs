@@ -41,7 +41,7 @@ namespace _24HackBookLibrary.API
                 }
                 return Results.Ok(book);
             });
-
+            //get specific book details
             app.MapGet("/books/{id}/author/genre/rating", (_24HackBookLibraryDbContext db, int id) =>
             {
                 var book = db.Books

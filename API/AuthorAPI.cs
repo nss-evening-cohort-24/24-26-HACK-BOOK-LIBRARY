@@ -40,6 +40,14 @@ namespace _24HackBookLibrary.API
                 return Results.Ok(author);
             });
 
+            app.MapDelete("/authors/{authorId}/books/", (_24HackBookLibraryDbContext db, int authorId) =>
+            {
+                var authorToDelete = db.Authors.Include(a => a.Books).FirstOrDefault(b => b.Id == authorId);
+                db.Authors.Remove(authorToDelete);
+                db.SaveChanges();
+                return Results.Ok("Author was deleted");
+            });
+
             app.MapGet("/authors/{id}/books", (_24HackBookLibraryDbContext db, int id) => //gets a single author with their books
             {
                 var author = db.Authors
