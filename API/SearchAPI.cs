@@ -27,13 +27,14 @@ namespace _24HackBookLibrary.API
                         BookId = b.Id,
                         Title = b.Title,
                         AuthorName = b.Author.Name,
-                        GenreName = b.Genre.GenreName
+                        GenreName = b.Genre.GenreName,
+                        BookCover = b.BookCover
                     })
                     .ToList();
 
                 if (books == null || books.Count == 0)
                 {
-                    return Results.NotFound("No books found matching the search criteria.");
+                    return Results.NotFound("");
                 }
 
                 return Results.Ok(books);

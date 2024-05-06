@@ -82,17 +82,19 @@ public class _24HackBookLibraryDbContext : DbContext
     });
 
         modelBuilder.Entity<UserBookRating>()
-            .HasKey(ubr => new { ubr.UserId, ubr.BookId });
+            .HasKey(ubr => new { ubr.Id });
 
         modelBuilder.Entity<UserBookRating>()
             .HasOne(ubr => ubr.User)
             .WithMany(u => u.UserBookRatings)
-            .HasForeignKey(ubr => ubr.UserId);
+            .HasForeignKey(ubr => ubr.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<UserBookRating>()
             .HasOne(ubr => ubr.Book)
             .WithMany(b => b.UserBookRatings)
-            .HasForeignKey(ubr => ubr.BookId);
+            .HasForeignKey(ubr => ubr.BookId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
 }
