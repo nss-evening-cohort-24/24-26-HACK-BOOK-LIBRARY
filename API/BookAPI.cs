@@ -19,9 +19,9 @@ namespace _24HackBookLibrary.API
             });
 
             //Get all books 
-            app.MapGet("/books", async (_24HackBookLibraryDbContext db, string sortBy = "title") =>
+            app.MapGet("/books", (_24HackBookLibraryDbContext db, string sortBy = "title") =>
             {
-                var books = await db.Books
+                var books = db.Books
                     .Include(b => b.Author)
                     .Include(b => b.Genre)
                     .Include(b => b.UserBookRatings)
@@ -38,7 +38,7 @@ namespace _24HackBookLibrary.API
                                 .Average(rating => (double?)rating.Score)
                     })
             .OrderBy(book => book.Title)
-            .ToListAsync();
+            .ToList();
 
                 if (books == null || !books.Any())
                 {
