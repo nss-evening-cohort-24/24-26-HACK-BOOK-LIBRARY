@@ -27,7 +27,7 @@ namespace _24HackBookLibrary.API
                     .Include(b => b.UserBookRatings)
                     .Select(book => new
                     {
-                        BookId = book.Id,
+                        Id = book.Id,
                         PublishYear = book.PublishYear,
                         Title = book.Title,
                         AuthorName = book.Author.Name,
