@@ -9,7 +9,7 @@ namespace _24HackBookLibrary.API
         {
             app.MapGet("/ratings/book/{bookId}", (_24HackBookLibraryDbContext db, int bookId) => //gets avg rating for single book
             {
-                var bookRatings = db.UserBookRatings.Where(ubr => ubr.Id == bookId).Select(ubr => ubr.Score).ToList();
+                var bookRatings = db.UserBookRatings.Where(ubr => ubr.BookId == bookId).Select(ubr => ubr.Score).ToList();
                 if(bookRatings == null || bookRatings.Count == 0)
                 {
 
@@ -63,6 +63,21 @@ namespace _24HackBookLibrary.API
                 catch (DbUpdateException) 
                 {
                     return Results.BadRequest("Unable to rate this book");
+                }
+            });
+
+            app.MapPut("/ratings/book/{bookId}/user/{userId}", (_24HackBookLibraryDbContext db, int userId, int bookId, RatingDTO updatedRating) =>
+            {
+                var userBookRatingToUpdate = db.UserBookRatings.FirstOrDefault(ubr => ubr.UserId == userId && ubr.BookId == bookId);
+                if (userBookRatingToUpdate == null)
+                {
+                    return Results.NotFound("This user hasnt rated this book yet");
+                }
+                else
+                {
+                    userBookRatingToUpdate.Score = updatedRating.Score ;
+                    db.SaveChanges();
+                    return Results.Created($"/ratings/{updatedRating.Id}", userBookRatingToUpdate);
                 }
             });
 
