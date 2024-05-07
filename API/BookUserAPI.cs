@@ -50,9 +50,13 @@ namespace _24HackBookLibrary.API
             });
 
             //Get user's bookshelf books
-            app.MapGet("/bookuser/{userId}", (_24HackBookLibraryDbContext db, int userId) =>
+            app.MapGet("/bookuser/{userId}", async (_24HackBookLibraryDbContext db, int userId) =>
             {
-                var user = db.Users.Include(u => u.Books).ThenInclude(b => b.Comments).FirstOrDefault(u => u.Id == userId);
+                var user = await db.Users
+                    .Include(u => u.Books).ThenInclude(b => b.Comments)
+                    .Include(u => u.Books).ThenInclude(b => b.Author)
+                    .Include(u => u.Books).ThenInclude(b => b.Genre)
+                    .FirstOrDefaultAsync(u => u.Id == userId);
 
                 if (user == null)
                 {
@@ -64,8 +68,8 @@ namespace _24HackBookLibrary.API
                     book.Id,
                     book.Title,
                     book.BookCover,
-                    book.AuthorId,
-                    book.GenreId,
+                    AuthorName = book.Author.Name,
+                    GenreName = book.Genre.GenreName,
                     book.PublishYear,
                     Comments = book.Comments?.Select(comment => new
                     {
@@ -74,7 +78,7 @@ namespace _24HackBookLibrary.API
                     }).ToList()
                 }).ToList();
 
-                if (bookShelf == null)
+                if (bookShelf == null || !bookShelf.Any())
                 {
                     return Results.NotFound("No books found for the specified user");
                 }
