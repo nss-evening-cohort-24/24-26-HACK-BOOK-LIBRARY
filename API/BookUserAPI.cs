@@ -80,7 +80,7 @@ namespace _24HackBookLibrary.API
 
                 if (bookShelf == null || !bookShelf.Any())
                 {
-                    return Results.NotFound("No books found for the specified user");
+                    return Results.NotFound("");
                 }
 
                 return Results.Ok(bookShelf);
