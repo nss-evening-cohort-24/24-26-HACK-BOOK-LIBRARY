@@ -19,39 +19,31 @@ namespace _24HackBookLibrary.API
             });
 
             //Get all books 
-            app.MapGet("/books", (_24HackBookLibraryDbContext db, string sortBy = "title") =>
+            app.MapGet("/books", async (_24HackBookLibraryDbContext db, string sortBy = "title") =>
             {
-                IQueryable<Book> booksQuery = db.Books
+                var books = await db.Books
                     .Include(b => b.Author)
                     .Include(b => b.Genre)
-                    .Include(b => b.UserBookRatings);
+                    .Include(b => b.UserBookRatings)
+                    .Select(book => new
+                    {
+                        BookId = book.Id,
+                        PublishYear = book.PublishYear,
+                        Title = book.Title,
+                        AuthorName = book.Author.Name,
+                        BookCover = book.BookCover,
+                        GenreName = book.Genre.GenreName,
+                        AverageRating = db.UserBookRatings
+                                .Where(rating => rating.BookId == book.Id)
+                                .Average(rating => (double?)rating.Score)
+                    })
+            .OrderBy(book => book.Title)
+            .ToListAsync();
 
-                if (sortBy.ToLower() == "rating")
+                if (books == null || !books.Any())
                 {
-                    booksQuery = booksQuery
-                        .Select(b => new
-                        {
-                            Book = b,
-                            AverageRating = b.UserBookRatings.Any() ? b.UserBookRatings.Average(r => r.Score) : 0.0
-                        })
-                        .OrderByDescending(x => x.AverageRating)
-                        .Select(x => x.Book);
+                    return Results.NotFound("No books found.");
                 }
-                else
-                {
-                    booksQuery = booksQuery.OrderBy(b => b.Title);
-                }
-
-                var books = booksQuery.Select(b => new
-                {
-                    b.Id,
-                    b.Title,
-                    b.PublishYear,
-                    b.BookCover,
-                    AuthorName = b.Author.Name,
-                    GenreName = b.Genre.GenreName,
-                    RatingsAverage = b.UserBookRatings.Any() ? b.UserBookRatings.Average(r => r.Score) : 0.0
-                }).ToList();
 
                 return Results.Ok(books);
             });
