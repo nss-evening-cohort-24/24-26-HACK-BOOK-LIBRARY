@@ -61,7 +61,7 @@ namespace _24HackBookLibrary.API
 
                 if (authors == null || authors.Count == 0)
                 {
-                    return Results.NotFound("No authors found matching the search criteria.");
+                    return Results.NotFound("");
                 }
 
                 return Results.Ok(authors);
