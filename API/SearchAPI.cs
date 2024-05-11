@@ -24,7 +24,7 @@ namespace _24HackBookLibrary.API
                                 b.Genre.GenreName.ToLower().Contains(normalizedQuery))
                     .Select(b => new
                     {
-                        BookId = b.Id,
+                        Id = b.Id,
                         Title = b.Title,
                         AuthorName = b.Author.Name,
                         GenreName = b.Genre.GenreName,
